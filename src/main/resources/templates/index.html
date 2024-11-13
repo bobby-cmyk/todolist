@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do App</title>
+</head>
+<body>
+    <h1>
+        To-do App
+    </h1>
+
+    <hr>
+
+    <form method="POST" action="/add" data-th-object="${task}">
+        <table>
+
+            <!-- TASK NAME -->
+            <tr>
+                <td>
+                    Task name:
+                </td>
+                <td>
+                    <input type="text" name="name" data-th-field="*{name}">
+                </td>
+            </tr>
+
+            <!-- PRIORITY -->
+            <tr>
+                <td>
+                    Priority:
+                </td>
+                <td>
+                    <input list="priority_levels" name="priority" data-th-field="*{priority}">
+                        <datalist id="priority_levels">
+                            <option value="LOW">
+                            <option value="MEDIUM">
+                            <option value="HIGH">
+                        </datalist>
+                </td>
+            </tr>
+
+            <!-- COMPLETE BY DATE -->
+            <tr>
+                <td>
+                    Complete by:
+                </td>
+                <td>
+                    <input type="date" name="date" data-th-field="*{date}">
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+
+                </td>
+
+                <td>
+                    <button type="add">ADD</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <hr>
+    
+    <div data-th-if="${#lists.isEmpty(tasks.content)}">
+        <code>Looks like you are free!</code>
+    </div>
+
+    <div data-th-unless="${#lists.isEmpty(tasks.content)}">
+        <table border="1">
+        <!-- TABLE HEADERS-->
+        <tr>
+            <th>
+                Task
+            </th>
+            <th>
+                Priority
+            </th>
+            <th>
+                Complete by
+            </th>
+        </tr>
+
+        <tr data-th-each="t: ${tasks.content}">
+            <td>
+                <span data-th-text="${t.name}"></span>
+            </td>
+
+            <td>
+                <span data-th-text="${t.priority}"></span>
+            </td>
+
+            <td>
+                <span data-th-text="${t.date}"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <form method="POST" action="/save">
+                    <button type="submit">SAVE</button>
+                </form>
+            </td>
+        </tr>
+
+    </table>
+
+    </div>
+
+    
+
+</body>
+</html>
