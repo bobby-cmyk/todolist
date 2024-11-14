@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-do App</title>
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h1>
-        To-do App
+        <code>To-Do App</code>
     </h1>
 
     <hr>
@@ -24,7 +25,8 @@
                     <input type="text" name="name" data-th-field="*{name}">
 
                     <span data-th-if="${#fields.hasErrors('name')}"
-                            data-th-errors="*{name}">
+                            data-th-errors="*{name}"
+                            data-th-errorclass="error">
                     </span>
                 </td>
             </tr>
@@ -43,7 +45,8 @@
                         </datalist>
                     
                     <span data-th-if="${#fields.hasErrors('priority')}"
-                            data-th-errors="*{priority}">
+                            data-th-errors="*{priority}"
+                            data-th-errorclass="error">
                     </span>
                 </td>
             </tr>
@@ -57,7 +60,8 @@
                     <input type="date" name="date" data-th-field="*{date}">
 
                     <span data-th-if="${#fields.hasErrors('date')}" 
-                            data-th-errors="*{date}">
+                            data-th-errors="*{date}"
+                            data-th-errorclass="error">
                     </span>
                 </td>
             </tr>
@@ -76,7 +80,7 @@
 
         <div data-th-if="${#fields.hasErrors('global')}">
             <p data-th-each="err : ${#fields.errors('global')}">
-                <span data-th-text="${err}"></span>
+                <span data-th-text="${err}" class="error"></span>
             </p>
         </div>
     </form>
@@ -115,26 +119,13 @@
                     <span data-th-text="${t.date}"></span>
                 </td>
             </tr>
-
-            <tr>
-                <td>
-
-                </td>
-
-                <td>
-
-                </td>
-
-                <td>
-                    <form method="POST" action="/save">
-                        <button type="submit">SAVE</button>
-                    </form>
-                </td>
-                
-            </tr>
-
+                    
         </table>
 
+        <form method="POST" action="/save">
+            <button type="submit">SAVE</button>
+        </form>
+        
     </div>
 
 </body>

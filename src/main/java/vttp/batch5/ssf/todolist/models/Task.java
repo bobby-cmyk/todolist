@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class Task {
 
@@ -16,6 +17,7 @@ public class Task {
 
     @NotNull(message="Must input a priority level")
     @NotEmpty(message="Priority level cannot be empty")
+    @Pattern(regexp = "^(LOW|MEDIUM|HIGH)$", message = "Priority must be either LOW, MEDIUM, or HIGH")
     private String priority;
 
     @NotNull(message="Must input a date to complete by")

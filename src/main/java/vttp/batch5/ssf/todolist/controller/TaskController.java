@@ -71,6 +71,8 @@ public class TaskController {
             return "index";
         }
 
+
+
         tasks.addTask(task);
 
         model.addAttribute("task", new Task());
@@ -92,4 +94,5 @@ public class TaskController {
 
         return "index";
     }
+
 }
