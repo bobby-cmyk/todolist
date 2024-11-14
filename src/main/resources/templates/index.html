@@ -12,7 +12,7 @@
 
     <hr>
 
-    <form method="POST" action="/add" data-th-object="${task}">
+    <form method="POST" action="/add" data-th-object="${task}" autocomplete="off">
         <table>
 
             <!-- TASK NAME -->
@@ -22,6 +22,10 @@
                 </td>
                 <td>
                     <input type="text" name="name" data-th-field="*{name}">
+
+                    <span data-th-if="${#fields.hasErrors('name')}"
+                            data-th-errors="*{name}">
+                    </span>
                 </td>
             </tr>
 
@@ -37,6 +41,10 @@
                             <option value="MEDIUM">
                             <option value="HIGH">
                         </datalist>
+                    
+                    <span data-th-if="${#fields.hasErrors('priority')}"
+                            data-th-errors="*{priority}">
+                    </span>
                 </td>
             </tr>
 
@@ -47,6 +55,10 @@
                 </td>
                 <td>
                     <input type="date" name="date" data-th-field="*{date}">
+
+                    <span data-th-if="${#fields.hasErrors('date')}" 
+                            data-th-errors="*{date}">
+                    </span>
                 </td>
             </tr>
             
@@ -59,7 +71,14 @@
                     <button type="add">ADD</button>
                 </td>
             </tr>
+
         </table>
+
+        <div data-th-if="${#fields.hasErrors('global')}">
+            <p data-th-each="err : ${#fields.errors('global')}">
+                <span data-th-text="${err}"></span>
+            </p>
+        </div>
     </form>
 
     <hr>
@@ -70,48 +89,53 @@
 
     <div data-th-unless="${#lists.isEmpty(tasks.content)}">
         <table border="1">
-        <!-- TABLE HEADERS-->
-        <tr>
-            <th>
-                Task
-            </th>
-            <th>
-                Priority
-            </th>
-            <th>
-                Complete by
-            </th>
-        </tr>
+            <!-- TABLE HEADERS-->
+            <tr>
+                <th>
+                    Task
+                </th>
+                <th>
+                    Priority
+                </th>
+                <th>
+                    Complete by
+                </th>
+            </tr>
 
-        <tr data-th-each="t: ${tasks.content}">
-            <td>
-                <span data-th-text="${t.name}"></span>
-            </td>
+            <tr data-th-each="t: ${tasks.content}">
+                <td>
+                    <span data-th-text="${t.name}"></span>
+                </td>
 
-            <td>
-                <span data-th-text="${t.priority}"></span>
-            </td>
+                <td>
+                    <span data-th-text="${t.priority}"></span>
+                </td>
 
-            <td>
-                <span data-th-text="${t.date}"></span>
-            </td>
-        </tr>
+                <td>
+                    <span data-th-text="${t.date}"></span>
+                </td>
+            </tr>
 
-        <tr>
-            <td></td>
-            <td></td>
-            <td>
-                <form method="POST" action="/save">
-                    <button type="submit">SAVE</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>
 
-    </table>
+                </td>
+
+                <td>
+
+                </td>
+
+                <td>
+                    <form method="POST" action="/save">
+                        <button type="submit">SAVE</button>
+                    </form>
+                </td>
+                
+            </tr>
+
+        </table>
 
     </div>
-
-    
 
 </body>
 </html>

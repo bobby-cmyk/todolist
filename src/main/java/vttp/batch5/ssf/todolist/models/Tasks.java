@@ -4,12 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Tasks {
-    private List<Task> tasks = new LinkedList<>();
+    private List<Task> tasks;
 
-    @Override
-    public String toString() {
-        return "Tasks [tasks=" + tasks + ", getContent()=" + getContent() + ", getSize()=" + getSize() + ", toString()="
-                + super.toString() + "]";
+    public Tasks() {
+        tasks = new LinkedList<>();
     }
 
     public List<Task> getContent() {
@@ -24,7 +22,7 @@ public class Tasks {
         tasks.add(task);
     }
 
-    public int getSize() {
+    public int getNumberOfTasks() {
         return tasks.size();
     }
 }

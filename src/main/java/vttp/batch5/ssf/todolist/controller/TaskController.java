@@ -2,12 +2,14 @@ package vttp.batch5.ssf.todolist.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import vttp.batch5.ssf.todolist.models.Task;
 import vttp.batch5.ssf.todolist.models.Tasks;
 
@@ -38,9 +40,36 @@ public class TaskController {
     @PostMapping("/add")
     public String addTask(Model model,
                         HttpSession sess,
-                        @ModelAttribute Task task) 
-    {
+                        @Valid Task task,
+                        BindingResult binding) 
+    {   
+        
         Tasks tasks = (Tasks) sess.getAttribute("tasks");
+
+        // After "/save", there will not be tasks in the session
+        if (tasks == null) {
+            tasks = new Tasks();
+            sess.setAttribute("tasks", tasks);
+        }
+
+        // If there are syntax error, return index
+        if (binding.hasErrors()) {
+            
+            model.addAttribute("tasks", tasks);
+
+            return "index";
+        }
+
+        // Only allow at most three tasks for free tier users - 
+        if (tasks.getNumberOfTasks() == 3) {
+
+            ObjectError err = new ObjectError("globalError", "You have reached the maximum number of tasks. Upgrade to Premium to continue using!");
+            binding.addError(err);
+
+            model.addAttribute("tasks", tasks);
+
+            return "index";
+        }
 
         tasks.addTask(task);
 
@@ -57,9 +86,9 @@ public class TaskController {
     {
         sess.invalidate();
 
-        model.addAttribute("task", new Task());
-
-        model.addAttribute("tasks", new Tasks());
+         // This is just for the page to load properly by ensuring that tasks is not null
+         model.addAttribute("task", new Task());
+         model.addAttribute("tasks", new Tasks());
 
         return "index";
     }
